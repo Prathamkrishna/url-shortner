@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,19 @@ export class AppComponent {
   count: any;
   search: any;
 
-  constructor(){
+  constructor(private _snackBar: MatSnackBar){
     this.count = this.getClickCount()
     this.search = this.getSearchCount()
   }
 
   onKey(e: any) {
     this.url = e.target.value;
+  }
+  
+  async openSnackBar() {
+    this._snackBar.open("Invalid Url entered", "ok", { duration: 2000,
+      panelClass: ['blue-snackbar']
+    });
   }
 
   fetchShortenedUrl() {
@@ -44,15 +51,17 @@ export class AppComponent {
       .then(response => this.shortenedUrl = response.result_url)
       .then(() => {
         if(this.shortenedUrl == undefined){
-          alert("Entered url is invalid")
+          throw("Exception")
         }
       }).then(()=>{
         fetch("http://localhost:3000/register/search", searchOptions)
-          .then(resp => resp.json())
-          .catch(console.error)
-        })
-        .then(()=>{
-          this.getSearchCount()
+        .then(resp => resp.json())
+        .catch(console.error)
+      })
+      .then(()=>{
+        this.getSearchCount()
+      }).catch(e=>{
+          this.openSnackBar()
         })
   }
 
