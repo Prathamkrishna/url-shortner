@@ -1,12 +1,14 @@
 <h1 id="head">URL SHORTNER</h1>
 
-<p>
+<div class="mains">
   Enter URL to be shortened
-  <br />
-  <span>
-    <input type="text" (keyup)="onKey($event)" />
-    <button (click)="fetchShortenedUrl()">Go</button>
-  </span>
+  <div>
+    <br />
+    <input matInput type="text" (keyup)="onKey($event)" />
+    <br />
+    <br />
+    <button mat-button (click)="fetchShortenedUrl()">Go</button>
+  </div>
   <br />
   <span (click)="addCountForClick()">
     <a href="{{this.shortenedUrl}}">{{shortenedUrl}}</a>
@@ -16,4 +18,4 @@
   Number of API searches: {{search}}
   <br />
   Number of search hits: {{count}}
-</p>
+</div>
